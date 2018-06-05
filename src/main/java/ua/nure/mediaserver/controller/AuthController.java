@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity registerUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity register(@RequestBody UserDTO userDTO) {
         //todo check for valid
         try {
             userService.registerUser(userDTO);
@@ -34,7 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+
+
 
     }
 
