@@ -1,4 +1,4 @@
-package ua.nure.mediaserver.domain;
+package ua.nure.mediaserver.domain.network;
 
 public class JwtAuthenticationResposne {
 

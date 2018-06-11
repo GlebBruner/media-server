@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.nure.mediaserver.configuration.security.JwtProvider;
-import ua.nure.mediaserver.domain.ApiResponse;
-import ua.nure.mediaserver.domain.JwtAuthenticationResposne;
+import ua.nure.mediaserver.domain.network.ApiResponse;
+import ua.nure.mediaserver.domain.network.JwtAuthenticationResposne;
 import ua.nure.mediaserver.domain.dto.UserDTO;
 import ua.nure.mediaserver.domain.exceptions.ExistingEmailOrPasswordException;
 import ua.nure.mediaserver.service.UserService;
@@ -30,6 +30,8 @@ public class AuthController {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+
 
     @Autowired
     public void setMongoUserDetailsService(UserService mongoUserDetailsService) {

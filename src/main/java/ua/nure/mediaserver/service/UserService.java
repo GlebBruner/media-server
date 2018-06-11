@@ -56,11 +56,5 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void loginUser(UserDTO userDTO) {
-
-    }
-
-
-
 
 }
