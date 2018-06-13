@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import ua.nure.mediaserver.domain.PrincipalDetails;
 
-import java.security.Key;
 import java.util.Date;
 
 

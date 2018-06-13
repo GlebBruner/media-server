@@ -1,6 +1,7 @@
 package ua.nure.mediaserver.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,8 @@ import ua.nure.mediaserver.domain.network.ApiResponse;
 import ua.nure.mediaserver.domain.network.JwtAuthenticationResposne;
 import ua.nure.mediaserver.domain.dto.UserDTO;
 import ua.nure.mediaserver.domain.exceptions.ExistingEmailOrPasswordException;
+import ua.nure.mediaserver.domain.validator.UserDtoValidator;
+import ua.nure.mediaserver.domain.validator.Validator;
 import ua.nure.mediaserver.service.UserService;
 
 @RestController
@@ -31,7 +34,8 @@ public class AuthController {
     @Autowired
     private JwtProvider jwtProvider;
 
-
+    @Autowired
+    private UserDtoValidator userDtoValidator;
 
     @Autowired
     public void setMongoUserDetailsService(UserService mongoUserDetailsService) {
@@ -39,10 +43,12 @@ public class AuthController {
     }
 
 
-
     @PostMapping("/signup")
     public ResponseEntity register(@RequestBody UserDTO userDTO) {
-        //todo check for valid
+
+        if (!userDtoValidator.isValid(userDTO)) {
+            return ResponseEntity.badRequest().build();
+        }
 
         try {
             userService.registerUser(userDTO);

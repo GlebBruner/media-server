@@ -14,11 +14,11 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public List<Order> getAllOrders() {
-
+        return orderRepository.findAll();
     }
 
-    public void createOrder() {
-
+    public void createOrder(Order order) {
+        orderRepository.save(order);
     }
 
 }

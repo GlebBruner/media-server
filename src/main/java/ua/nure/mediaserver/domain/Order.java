@@ -12,9 +12,7 @@ public class Order {
 
     @Id
     private ObjectId _id;
-
-    private String creatorId;
-
+    private ObjectId creatorId;
     private boolean isPaid;
     private boolean isPrivate;
     private String description;
@@ -28,7 +26,6 @@ public class Order {
     private Date creationDate;
     private Date deadline;
     private float money;
-
 
 
     public Order() {
@@ -50,7 +47,7 @@ public class Order {
             return this;
         }
 
-        public Builder setCreatorId(String creatorId) {
+        public Builder setCreatorId(ObjectId creatorId) {
             Order.this.creatorId = creatorId;
             return this;
         }
