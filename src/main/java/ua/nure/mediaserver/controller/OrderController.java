@@ -66,8 +66,7 @@ public class OrderController {
             return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
 
         }
-
-
+        return null;
 
     }
 
