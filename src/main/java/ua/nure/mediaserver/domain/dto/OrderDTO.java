@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class OrderDTO {
 
+    private String title;
     private boolean isPaid;
     private boolean isPrivate;
     private String description;
@@ -16,10 +17,19 @@ public class OrderDTO {
     private Set<String> categories;
     private int likes;
     private int dislikes;
-    private Point location;
+    private ua.nure.mediaserver.domain.Point location;
     private Date creationDate;
     private Date deadline;
     private float money;
+    private String fullName;
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
     public boolean isPaid() {
         return isPaid;
@@ -93,11 +103,11 @@ public class OrderDTO {
         this.dislikes = dislikes;
     }
 
-    public Point getLocation() {
+    public ua.nure.mediaserver.domain.Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(ua.nure.mediaserver.domain.Point location) {
         this.location = location;
     }
 
@@ -123,5 +133,13 @@ public class OrderDTO {
 
     public void setMoney(float money) {
         this.money = money;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

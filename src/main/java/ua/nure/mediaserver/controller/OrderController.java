@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.nure.mediaserver.domain.Order;
 import ua.nure.mediaserver.domain.PrincipalDetails;
+import ua.nure.mediaserver.domain.User;
 import ua.nure.mediaserver.domain.dto.OrderDTO;
 import ua.nure.mediaserver.repository.UserRepository;
 import ua.nure.mediaserver.service.OrderService;
@@ -27,22 +28,29 @@ public class OrderController {
     private UserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<List<Order>> gelAllOrders() {
+    public ResponseEntity<List<Order>> gelAllOrders(@RequestHeader("Authorization") String jwt) {
+        System.out.println(jwt);
         List<Order> orderList = orderService.getAllOrders();
+        System.out.println(orderList.size());
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<List<Order>> createOrder(@RequestBody OrderDTO orderDTO,
+    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO,
                                                    @RequestHeader("Authorization") String jwt) {
         //todo validity check
 
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+
         if (authentication != null) {
+            System.out.println(jwt);
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             String emailOfCreator = principalDetails.getUsername();
-            ObjectId creatorId = userRepository.readByEmail(emailOfCreator).get_id();
+            User user = userRepository.readByEmail(emailOfCreator);
+            ObjectId creatorId = user.get_id();
+            System.out.println(user.toString());
 
             Order orderToSave = Order.builder()
                     .setCategories(orderDTO.getCategories())
@@ -54,19 +62,24 @@ public class OrderController {
                     .setDislikes(0)
                     .setLikes(0)
                     .setPrivate(orderDTO.isPrivate())
-                    .setLocation(orderDTO.getLocation()) // todo check this moment
-                    .setPhotoCount(0)
-                    .setVideoCount(0)
+                    .setLocation(orderDTO.getLocation())
+                    .setPhotoCount(orderDTO.getPhotoCount())
+                    .setVideoCount(orderDTO.getVideoCount())
                     .setPaid(orderDTO.isPaid())
                     .setMoney(orderDTO.getMoney())
+                    .setFullname(user.getName() + " " + user.getSurname())
+                    .setTitle(orderDTO.getTitle())
                     .build();
+
+            System.out.println(orderToSave.toString());
 
             orderService.createOrder(orderToSave);
 
-            return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
+
+            return new ResponseEntity<>(orderToSave, HttpStatus.OK);
 
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 
